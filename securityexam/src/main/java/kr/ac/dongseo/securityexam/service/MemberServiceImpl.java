@@ -29,13 +29,13 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	public UserEntity getUser(String loginUserId) {
 		Member member;
-		
+
 		try {
 			member = memberDao.getMemberByEmail(loginUserId);
 		} catch (Exception e) {
 			return null;
 		}
-		
+
 		return new UserEntity(member.getEmail(), member.getPassword());
 	}
 
@@ -58,11 +58,11 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.addMember(member);
 
 		Long memberId = memberDao.getMemberByEmail(member.getEmail()).getId();
-		
+
 		MemberRole memberRole = new MemberRole(memberId, "ROLE_USER");
 		memberRoleDao.addRole(memberRole);
-		
-		if(isAdmin) {
+
+		if (isAdmin) {
 			memberRole.setRoleName("ROLE_ADMIN");
 			memberRoleDao.addRole(memberRole);
 		}
